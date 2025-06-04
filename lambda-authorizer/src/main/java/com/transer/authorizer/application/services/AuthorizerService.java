@@ -6,7 +6,6 @@ import com.transer.authorizer.application.ports.outputs.TokenValidator;
 import com.transer.authorizer.domain.models.policies.AuthorizerResponse;
 import com.transer.authorizer.domain.models.policies.PolicyDocument;
 import com.transer.authorizer.domain.models.policies.Statement;
-import com.transer.authorizer.infrastructure.adapters.utils.ClaimExtractor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ import java.util.Map;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AuthorizerService implements Authorizer, ClaimExtractor {
+public class AuthorizerService implements Authorizer {
 
   private final TokenValidator tokenValidator;
   private final RoleValidator roleValidator;

@@ -15,5 +15,5 @@ public class ClientCredentialCatalog {
 
   private Map<String, ClientCredential> clients;
 
-  public static record ClientCredential(String clientId, String clientSecret) { }
+  public record ClientCredential(String clientId, String clientSecret) { }
 }
