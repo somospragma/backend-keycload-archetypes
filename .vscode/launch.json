@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-LambdaApplication<lambda-authorizer>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.transer.authorizer.LambdaApplication",
+            "projectName": "lambda-authorizer",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

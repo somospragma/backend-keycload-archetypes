@@ -1,0 +1,105 @@
+plugins {
+    id 'jacoco'
+    id 'java'
+    id 'org.springframework.boot' version '3.3.5'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'com.gradleup.shadow' version '8.3.5'
+    id 'org.springframework.boot.experimental.thin-launcher' version '1.0.31.RELEASE'
+    id 'org.sonarqube' version '4.3.0.3225'
+}
+
+group = 'com.transer'
+version = '1.0.1'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2023.0.4")
+    set('springCloudFunctionVersion', "4.2.0")
+    set('artifactName', 'lambda-authorizer')
+    set('mapstructVersion', '1.6.2')
+    set('lombokVersion', '1.18.34')
+}
+
+dependencies {
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+    implementation 'org.springframework.cloud:spring-cloud-function-adapter-aws'
+    implementation 'org.springframework.cloud:spring-cloud-context'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
+    implementation 'ch.qos.logback:logback-classic:1.5.12'
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.3'
+    implementation 'com.amazonaws:aws-lambda-java-events:3.14.0'
+    implementation 'software.amazon.awssdk:iam:2.29.29'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation "org.wiremock:wiremock-jetty12:3.10.0"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+assemble.dependsOn = [thinJar, shadowJar]
+
+shadowJar {
+    archiveBaseName = "${artifactName}"
+    archiveClassifier = 'aws'
+    archiveVersion = version.toString()
+
+    dependencies {
+        exclude(
+                dependency("org.springframework.cloud:spring-cloud-function-web:${springCloudFunctionVersion}"))
+    }
+
+    manifest {
+        inheritFrom(project.tasks.thinJar.manifest)
+        attributes(
+                'Main-Class': 'com.transer.authorizer.LambdaApplication',
+                'Start-Class': 'com.transer.authorizer.LambdaApplication',
+                'Implementation-Title': "${artifactName}",
+                'Implementation-Version': version,
+                'Build-Jdk-Spec': '21'
+        )
+    }
+
+    mergeServiceFiles {
+        include 'META-INF/spring.binders'
+        include 'META-INF/spring.handlers'
+        include 'META-INF/spring.schemas'
+        include 'META-INF/spring.tooling'
+        include 'META-INF/spring.factories'
+        include 'META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports'
+        include 'META-INF/spring/org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration.imports'
+    }
+}
+
+jacocoTestReport {
+    dependsOn test 
+    reports {
+        xml.required = true
+        html.required = true 
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport 
+}

@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    function.definition: lambdaAuthorizer
+
+logging:
+  level:
+    org.springframework.cloud: ${LOG_LEVEL}
+
+keycloak:
+  base-url: ${BASE_URL_KEYCLOAK}
+  clients:
+    users:
+      client-id: ${CLIENT_IDKEYCLOAK}
+      client-secret: ${CLIENT_SECRET_KEYCLOAK}
+
+roles:
+  enabled: ${ENABLED_VALIDATION_ROLES}
+  method-regex: ${METHOD_REGEX}
+  actions:
+    post: ${POST_ACTIONS}
+    put: ${PUT_ACTIONS}
+    delete: ${DELETE_ACTIONS}
+    get: ${GET_ACTIONS}
+  components: ${LIST_COMPONENTS_ALLOWED}

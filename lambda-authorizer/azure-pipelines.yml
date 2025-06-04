@@ -1,0 +1,21 @@
+trigger:
+  branches:
+    include:
+      - master
+      - devops
+      - develop
+      - release
+
+  paths:
+    exclude:
+      - azure-pipelines.yml
+
+resources:
+  repositories:
+  - repository: transer-pipelines-templates
+    type: git
+    ref: master
+    name: transer-pipelines-templates
+
+extends:
+  template: main.yml@transer-pipelines-templates

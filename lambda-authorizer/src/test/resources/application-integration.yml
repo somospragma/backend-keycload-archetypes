@@ -1,0 +1,28 @@
+spring:
+  cloud:
+    function.definition: lambdaAuthorizer
+    openfeign:
+      enabled: true
+
+logging:
+  level:
+    org.springframework.cloud: INFO
+
+keycloak:
+  base-url: http://localhost:8091
+  clients:
+    users:
+      client-id: client-id
+      client-secret: client-secret
+    drivers:
+      client-id: transer-drivers
+
+roles:
+  enabled: true
+  method-regex: "/dev/([A-Z]+)/"
+  actions:
+    post: 'creation,asociation'
+    put: 'update'
+    delete: 'delete'
+    get: 'view,asociation'
+  components: "clients,drivers,vehicles,routes,business,services,compliances,liquidations,billings"

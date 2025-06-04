@@ -1,0 +1,50 @@
+{
+  "exp": 1734375144,
+  "iat": 1734374844,
+  "jti": "e0fb912e-6516-4629-bada-132563db4925",
+  "iss": "https://keycloak-dev.transer.digital/realms/users",
+  "aud": "account",
+  "sub": "0b8fc4a4-ee46-4b69-b631-771f604f8ef5",
+  "typ": "Bearer",
+  "azp": "transer-users",
+  "sid": "55290abd-ad8d-468f-a89c-713508e81b2a",
+  "acr": "1",
+  "allowed-origins": [
+    "*"
+  ],
+  "realm_access": {
+    "roles": [
+      "offline_access",
+      "uma_authorization",
+      "default-roles-users"
+    ]
+  },
+  "resource_access": {
+    "transer-users": {
+      "roles": [
+        "client-update",
+        "clients-view",
+        "clients-creation",
+        "clients-asociation"
+      ]
+    },
+    "account": {
+      "roles": [
+        "manage-account",
+        "manage-account-links",
+        "view-profile"
+      ]
+    }
+  },
+  "scope": "profile email",
+  "email_verified": false,
+  "name": "Juan Sebastian Baez",
+  "preferred_username": "sebastian.baez",
+  "given_name": "Juan Sebastian",
+  "family_name": "Baez",
+  "email": "sebastian.baez@pragma.com.co",
+  "client_id": "transer-users",
+  "username": "sebastian.baez",
+  "token_type": "Bearer",
+  "active": true
+}
