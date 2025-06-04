@@ -5,8 +5,8 @@ import com.transer.authorizer.infrastructure.adapters.outputs.keycloak.dtos.Auth
 import com.transer.authorizer.infrastructure.adapters.outputs.keycloak.dtos.ResourcesAccess;
 import com.transer.authorizer.infrastructure.adapters.outputs.keycloak.exceptions.UnauthorizedResponseException;
 import com.transer.authorizer.infrastructure.adapters.outputs.keycloak.impl.ClientCredentialCatalog.ClientCredential;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,16 +15,11 @@ import java.util.Optional;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class TokenKeycloakValidator implements TokenValidator {
 
   private final KeycloakInvoker keycloakInvoker;
   private final ClientCredentialCatalog clientCredentialCatalog;
-
-  @Autowired
-  public TokenKeycloakValidator(KeycloakInvoker keycloakInvoker, ClientCredentialCatalog clientCredentialCatalog) {
-    this.keycloakInvoker = keycloakInvoker;
-    this.clientCredentialCatalog = clientCredentialCatalog;
-  }
 
   @Override
   public List<String> validate(String token, String client) {
@@ -42,7 +37,6 @@ public class TokenKeycloakValidator implements TokenValidator {
       .findFirst()
       .orElseThrow(() -> new IllegalArgumentException("Client not found"));
   }
-
 
   private List<String> extractRoles(ResourcesAccess resourceAccess) {
     return Optional.ofNullable(resourceAccess)

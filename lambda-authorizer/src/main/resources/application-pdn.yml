@@ -10,10 +10,8 @@ keycloak:
   base-url: ${BASE_URL_KEYCLOAK}
   clients:
     users:
-      client-id: ${CLIENT_ID_USERS_KEYCLOAK}
-      client-secret: ${CLIENT_SECRET_USERS_KEYCLOAK}
-    drivers:
-      client-id: ${CLIENT_ID_DRIVERS_KEYCLOAK}
+      client-id: ${CLIENT_IDKEYCLOAK}
+      client-secret: ${CLIENT_SECRET_KEYCLOAK}
 
 roles:
   enabled: ${ENABLED_VALIDATION_ROLES}

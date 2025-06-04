@@ -14,8 +14,6 @@ keycloak:
     users:
       client-id: client-id
       client-secret: client-secret
-    drivers:
-      client-id: transer-drivers
 
 roles:
   enabled: false

@@ -1,19 +1,25 @@
 package com.transer.authorizer.domain.models.policies;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = Statement.Builder.class)
 public class Statement {
 
-  public final String Action = "execute-api:Invoke";
+  @JsonProperty("Action")
+  public String action;
 
-  public String Effect;
-  public String Resource;
+  @JsonProperty("Effect")
+  public String effect;
+
+  @JsonProperty("Resource")
+  public String resource;
 
   private Statement(Builder builder) {
-    this.Effect = builder.effect;
-    this.Resource = builder.resource;
+    this.action = builder.action;
+    this.effect = builder.effect;
+    this.resource = builder.resource;
   }
 
   public static Builder builder() {
@@ -22,10 +28,13 @@ public class Statement {
 
   @JsonPOJOBuilder(withPrefix = "")
   public static final class Builder {
+
+    private final String action;
     private String effect;
     private String resource;
 
     private Builder() {
+      action = "execute-api:Invoke";
     }
 
     public Builder effect(String effect) {

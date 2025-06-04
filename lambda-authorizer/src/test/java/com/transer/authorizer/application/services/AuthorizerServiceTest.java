@@ -29,11 +29,9 @@ class AuthorizerServiceTest implements TokenGenerator {
   @Mock
   private RoleValidator roleValidator;
 
-
-
   @BeforeEach
   void setUp() {
-    this.authorizerService = new AuthorizerService(tokenValidator, roleValidator, "transer-drivers");
+    this.authorizerService = new AuthorizerService(tokenValidator, roleValidator);
   }
 
   @Test
@@ -42,18 +40,8 @@ class AuthorizerServiceTest implements TokenGenerator {
     final AuthorizerResponse authorize = authorizerService.authorize("Bearer token-dummy-fake", "methodArn", "clientId");
 
     assertThat(authorize.getPrincipalId()).isEqualTo("user");
-    assertThat(authorize.getPolicyDocument().Statement).hasSize(1);
-    assertThat(authorize.getPolicyDocument().Statement.getFirst().Effect).isEqualTo("Deny");
-  }
-
-  @Test
-  void givenValidMethodWhenAttemptingToValidateDriverTokenShouldResultAllowPolicy() {
-
-    final AuthorizerResponse authorize = authorizerService.authorize(driversToken(), "methodArn", "clientId");
-
-    assertThat(authorize.getPrincipalId()).isEqualTo("user");
-    assertThat(authorize.getPolicyDocument().Statement).hasSize(1);
-    assertThat(authorize.getPolicyDocument().Statement.getFirst().Effect).isEqualTo("Allow");
+    assertThat(authorize.getPolicyDocument().statement).hasSize(1);
+    assertThat(authorize.getPolicyDocument().statement.getFirst().effect).isEqualTo("Deny");
   }
 
   @Test
@@ -66,8 +54,8 @@ class AuthorizerServiceTest implements TokenGenerator {
     final AuthorizerResponse authorize = authorizerService.authorize(usersToken(), "methodArn", "clientId");
 
     assertThat(authorize.getPrincipalId()).isEqualTo("user");
-    assertThat(authorize.getPolicyDocument().Statement).hasSize(1);
-    assertThat(authorize.getPolicyDocument().Statement.getFirst().Effect).isEqualTo("Deny");
+    assertThat(authorize.getPolicyDocument().statement).hasSize(1);
+    assertThat(authorize.getPolicyDocument().statement.getFirst().effect).isEqualTo("Deny");
   }
 
   @Test
@@ -79,8 +67,8 @@ class AuthorizerServiceTest implements TokenGenerator {
     final AuthorizerResponse authorize = authorizerService.authorize(usersToken(), "methodArn", "clientId");
 
     assertThat(authorize.getPrincipalId()).isEqualTo("user");
-    assertThat(authorize.getPolicyDocument().Statement).hasSize(1);
+    assertThat(authorize.getPolicyDocument().statement).hasSize(1);
     assertThat(authorize.getContext()).containsExactly(Map.entry("message", "Success"));
-    assertThat(authorize.getPolicyDocument().Statement.getFirst().Effect).isEqualTo("Allow");
+    assertThat(authorize.getPolicyDocument().statement.getFirst().effect).isEqualTo("Allow");
   }
 }

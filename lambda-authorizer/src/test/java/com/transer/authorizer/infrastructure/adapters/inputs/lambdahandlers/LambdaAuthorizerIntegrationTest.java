@@ -44,8 +44,8 @@ class LambdaAuthorizerIntegrationTest implements ResourceUtil, TokenGenerator {
     final AuthorizerResponse authorizerResponse = lambdaAuthorizer.apply(apiGatewayCustomAuthorizerEvent);
 
     assertThat(authorizerResponse.getPrincipalId()).isEqualTo("user");
-    assertThat(authorizerResponse.getPolicyDocument().Statement).hasSize(1);
-    assertThat(authorizerResponse.getPolicyDocument().Statement.getFirst().Effect).isEqualTo("Deny");
+    assertThat(authorizerResponse.getPolicyDocument().statement).hasSize(1);
+    assertThat(authorizerResponse.getPolicyDocument().statement.getFirst().effect).isEqualTo("Deny");
   }
 
   @Test
@@ -66,8 +66,8 @@ class LambdaAuthorizerIntegrationTest implements ResourceUtil, TokenGenerator {
     final AuthorizerResponse authorizerResponse = lambdaAuthorizer.apply(apiGatewayCustomAuthorizerEvent);
 
     assertThat(authorizerResponse.getPrincipalId()).isEqualTo("user");
-    assertThat(authorizerResponse.getPolicyDocument().Statement).hasSize(1);
-    assertThat(authorizerResponse.getPolicyDocument().Statement.getFirst().Effect).isEqualTo("Deny");
+    assertThat(authorizerResponse.getPolicyDocument().statement).hasSize(1);
+    assertThat(authorizerResponse.getPolicyDocument().statement.getFirst().effect).isEqualTo("Deny");
   }
 
   @Test
@@ -88,7 +88,7 @@ class LambdaAuthorizerIntegrationTest implements ResourceUtil, TokenGenerator {
     final AuthorizerResponse authorizerResponse = lambdaAuthorizer.apply(apiGatewayCustomAuthorizerEvent);
 
     assertThat(authorizerResponse.getPrincipalId()).isEqualTo("user");
-    assertThat(authorizerResponse.getPolicyDocument().Statement).hasSize(1);
-    assertThat(authorizerResponse.getPolicyDocument().Statement.getFirst().Effect).isEqualTo("Allow");
+    assertThat(authorizerResponse.getPolicyDocument().statement).hasSize(1);
+    assertThat(authorizerResponse.getPolicyDocument().statement.getFirst().effect).isEqualTo("Allow");
   }
 }
