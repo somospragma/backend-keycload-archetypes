@@ -1,8 +1,9 @@
 package com.transer.authorizer.infrastructure.adapters.outputs.rolevalidators.impl;
 
 import com.transer.authorizer.application.ports.outputs.RoleValidator;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,14 +14,10 @@ import java.util.regex.Pattern;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class RoleClientValidator implements RoleValidator {
 
   private final RoleCollectionCatalog roleCollectionCatalog;
-
-  @Autowired
-  public RoleClientValidator(RoleCollectionCatalog roleCollectionCatalog) {
-    this.roleCollectionCatalog = roleCollectionCatalog;
-  }
 
   @Override
   public boolean validate(List<String> roles, String methodArn) {
@@ -30,11 +27,7 @@ public class RoleClientValidator implements RoleValidator {
     final List<String> validRoles = findValidRoles(roles);
 
     if(roleCollectionCatalog.isEnabled()) {
-      if (validRoles.isEmpty()) {
-        log.info("No valid roles found, returning allow policy");
-        return true;
-      }
-
+      log.info("Role validation is enabled, validating roles: {}", validRoles);
       return findValidActions(validRoles)
         .stream()
         .anyMatch(methodAction -> methodAction.equalsIgnoreCase(method));

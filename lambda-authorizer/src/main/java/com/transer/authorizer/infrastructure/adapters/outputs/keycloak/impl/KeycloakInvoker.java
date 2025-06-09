@@ -3,8 +3,9 @@ package com.transer.authorizer.infrastructure.adapters.outputs.keycloak.impl;
 import com.transer.authorizer.infrastructure.adapters.outputs.keycloak.clients.KeycloakClient;
 import com.transer.authorizer.infrastructure.adapters.outputs.keycloak.dtos.AuthorizationResponse;
 import com.transer.authorizer.infrastructure.adapters.outputs.keycloak.impl.ClientCredentialCatalog.ClientCredential;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
@@ -14,14 +15,10 @@ import java.util.Map;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class KeycloakInvoker {
 
   private final KeycloakClient keycloakClient;
-
-  @Autowired
-  public KeycloakInvoker(KeycloakClient keycloakClient) {
-    this.keycloakClient = keycloakClient;
-  }
 
   @Cacheable(
     value = "tokenValidated",

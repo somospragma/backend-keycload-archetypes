@@ -65,8 +65,8 @@ class RoleClientValidatorTest {
 
   @Test
   void givenCorrectComponentRoleAssociationWhenRoleClientValidatorWithCorrectMethodArnIsInvokedShouldReturnTrue() {
-    final List<String> roles = List.of("client-association");
-    final String methodArn = "arn:aws:execute-api:us-east-1:339713053416:bz6r7c1u5d/dev/POST/v2/service/create";
+    final List<String> roles = List.of("clients-association");
+    final String methodArn = "arn:aws:execute-api:us-east-1:339713053416:bz6r7c1u5d/dev/POST/v2/clients/create";
 
     assertThat(roleClientValidator.validate(roles, methodArn))
       .isTrue();
